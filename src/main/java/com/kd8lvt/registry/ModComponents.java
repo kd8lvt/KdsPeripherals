@@ -1,15 +1,21 @@
 package com.kd8lvt.registry;
 
-import com.kd8lvt.api.rfid.RFIDDevice;
+import com.kd8lvt.content.item.PlayerRFIDCard.PlayerCardComponent;
+import com.kd8lvt.util.GenericModComponent;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public final class ModComponents {
-    private final static ModRegistry<ComponentType<?>> REGISTRY = new ModRegistry<>(Registries.DATA_COMPONENT_TYPE);
-
-    public static ComponentType<RFIDDevice> RFID_DEVICE;
+    public static ComponentType<PlayerCardComponent> PLAYER_CARD;
 
     public static void init() {
-        RFID_DEVICE = REGISTRY.register(ComponentType.<RFIDDevice>builder().codec(RFIDDevice.CODEC).build(), "rfid_device");
+        PLAYER_CARD = register(PlayerCardComponent.DEFAULT);
     }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends GenericModComponent> ComponentType<T> register(T comp) {
+        return Registry.register(Registries.DATA_COMPONENT_TYPE,comp.id(),(ComponentType<T>)comp.type());
+    }
+
 }

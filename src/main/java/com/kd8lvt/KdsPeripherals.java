@@ -1,6 +1,6 @@
 package com.kd8lvt;
 
-import com.kd8lvt.registry.*;
+import com.kd8lvt.registry.ModRegistry;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +11,6 @@ public class KdsPeripherals implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModComponents.init();
-        ModBlocks.init();
-        ModBlockEntities.init();
-        ModItems.init();
-
-        ModTooltips.init(); //So long as this is after ModItems.init() we should be good?
+        ModRegistry.init();
     }
 }

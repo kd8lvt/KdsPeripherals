@@ -54,6 +54,8 @@ loom {
 		}
 	}
 
+	accessWidenerPath = file("src/main/resources/kds_periphs.accesswidener")
+
 }
 
 fabricApi {
