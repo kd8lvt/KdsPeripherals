@@ -58,16 +58,16 @@ public class PlayerRFIDCard extends RFIDItem<PlayerCardComponent> implements Cus
     public LuaPlayerRFIDCard rfidDevice(GenericModBlockEntity be, boolean canWrite, Entity entity, ItemStack device) {
         return LuaPlayerRFIDCard.of(be,canWrite,entity,device);
     }
-    public static class LuaPlayerRFIDCard extends LuaRFIDDevice {
+    public static class LuaPlayerRFIDCard extends LuaRFIDDevice<PlayerCardComponent> {
         PlayerCardComponent device;
-        public LuaPlayerRFIDCard(double distance, PlayerCardComponent device) {
-            super(distance,device,false);
+        public LuaPlayerRFIDCard(double distance, ItemStack stack, PlayerCardComponent device) {
+            super(distance,device.type(),stack,device,false);
         }
 
         public static LuaPlayerRFIDCard of(GenericModBlockEntity be, boolean ignoredCanWrite, Entity entity, ItemStack device) {
             double distance = Math.sqrt(be.getPos().getSquaredDistance(entity.getPos())); //Why can I only get squared distances lmao
             PlayerCardComponent dev = device.getOrDefault(ModComponents.PLAYER_CARD,PlayerCardComponent.DEFAULT);
-            return new LuaPlayerRFIDCard(distance, dev);
+            return new LuaPlayerRFIDCard(distance, device, dev);
         }
 
         @LuaFunction

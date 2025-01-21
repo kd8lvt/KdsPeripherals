@@ -22,7 +22,10 @@ public abstract class RFIDComponent extends GenericModComponent implements RFIDD
         return comp.get(key);
     }
     @Override
-    public void write(String key, NbtElement value) throws LuaException {
-        comp.put(key,value);
+    public RFIDComponent write(String key, NbtElement value) throws LuaException {
+        NbtCompound copy = comp.copy();
+        copy.put(key,value);
+        comp = comp.copyFrom(copy);
+        return this;
     }
 }

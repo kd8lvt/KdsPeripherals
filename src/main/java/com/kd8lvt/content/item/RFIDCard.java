@@ -32,11 +32,6 @@ public class RFIDCard extends RFIDItem<RFIDCard.RFIDCardComponent> {
         return stack.getOrDefault(ModComponents.RFID_CARD,RFIDCardComponent.DEFAULT);
     }
 
-    public static NbtCompound getData(ItemStack stack) {
-        RFIDCardComponent comp = getComp(stack);
-        return comp.comp;
-    }
-
     public static class RFIDCardComponent extends RFIDComponent {
         public static final RFIDCardComponent DEFAULT = new RFIDCardComponent();
 
@@ -44,15 +39,17 @@ public class RFIDCard extends RFIDItem<RFIDCard.RFIDCardComponent> {
         public RFIDCardComponent() {super();}
         public int getBytesStored() {
             //there is a little overhead of (at the time of writing) 48 bytes that has to be accounted for.
-            return this.comp.getSizeInBytes()-DEFAULT.comp.getSizeInBytes()+1;
+            return this.comp.getSizeInBytes()-DEFAULT.comp.getSizeInBytes();
         }
 
         @Override
-        public void write(String key, NbtElement value) throws LuaException {
+        public RFIDCardComponent write(String key, NbtElement value) throws LuaException {
             int max = maxBytes();
             int afterWrite = getBytesStored()+value.getSizeInBytes();
             if (afterWrite > max) throw new LuaException("RFID Storage too small! ("+afterWrite+"/"+max+" bytes)");
-            super.write(key,value);
+            NbtCompound copy = this.comp.copy();
+            copy.putString(key,value.asString());
+            return new RFIDCardComponent(copy);
         }
 
         @Override

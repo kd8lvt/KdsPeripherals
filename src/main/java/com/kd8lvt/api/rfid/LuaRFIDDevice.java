@@ -4,6 +4,7 @@ import com.kd8lvt.api.rfid.component.RFIDComponent;
 import com.kd8lvt.content.block.GenericModBlockEntity;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import net.minecraft.component.ComponentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
@@ -11,52 +12,59 @@ import net.minecraft.nbt.NbtString;
 
 import java.util.Objects;
 
-public class LuaRFIDDevice {
+public class LuaRFIDDevice<T extends RFIDComponent> {
     public final double distance;
-    public final RFIDDevice device;
+    public final ItemStack stack;
+    public RFIDDevice device;
+    public final ComponentType<T> componentType;
     public final boolean writeable;
 
-    public LuaRFIDDevice(double distance, RFIDDevice device, boolean writeable) {
+    public LuaRFIDDevice(double distance, ComponentType<T> componentType, ItemStack stack, RFIDDevice device, boolean writeable) {
         this.distance = distance;
         this.device = device;
+        this.stack = stack;
         this.writeable = writeable;
+        this.componentType = componentType;
     }
 
-    public static LuaRFIDDevice of(GenericModBlockEntity be, boolean canWrite, Entity entity, ItemStack device) {
+    public static <T extends RFIDComponent> LuaRFIDDevice<T> of(GenericModBlockEntity be, boolean canWrite, Entity entity, ItemStack device, ComponentType<T> component) {
         double distance = Math.sqrt(be.getPos().getSquaredDistance(entity.getPos())); //Why can I only get squared distances lmao
-        RFIDDevice dev = null;
-        if (device.getItem() instanceof RFIDItem<? extends RFIDComponent> rfidItem) {
-            dev = device.getOrDefault(rfidItem.component_type, rfidItem.default_component);
-        }
-        return new LuaRFIDDevice(distance, dev, canWrite);
+        T dev = device.get(component);
+        return new LuaRFIDDevice<>(distance, component, device, dev, canWrite);
     }
 
     @LuaFunction
-    public String getDeviceType() {
+    public final String getDeviceType() {
         return device.deviceType();
     }
 
     @LuaFunction
-    public double distance() {
+    public final double distance() {
         return distance;
     }
 
     @LuaFunction
-    public boolean writeable() {
+    public final boolean writeable() {
         return writeable;
     }
 
     @LuaFunction
-    public String read(String key) {
+    public final String read(String key) {
         NbtElement val = device.read(key);
         if (val != null) return val.asString();
         return null;
     }
 
+    //This method is bad.
+    //I know its bad.
+    //It works, though... somehow.
     @LuaFunction
-    public void write(String key, String value) throws LuaException {
+    public final void write(String key, String value) throws LuaException {
         if (!writeable) throw new LuaException("This device isn't writeable!");
-        device.write(key, NbtString.of(value));
+        T comp = stack.get(componentType);
+        comp = (T)comp.write(key,NbtString.of(value));
+        this.device = comp; //Update the lua representation of the device. I shouldn't really allow things to persist, but meh.
+        stack.set(componentType,comp);
     }
 
     @Override

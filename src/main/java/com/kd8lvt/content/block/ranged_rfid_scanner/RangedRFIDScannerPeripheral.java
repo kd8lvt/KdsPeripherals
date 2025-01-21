@@ -7,10 +7,12 @@ import com.kd8lvt.api.rfid.RFIDItem;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.lua.ObjectLuaTable;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.TypeFilter;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -38,8 +40,18 @@ public class RangedRFIDScannerPeripheral extends GenericModPeripheral<RangedRFID
                     ItemStack stack = inv.getStack(i);
                     if (stack.getItem() instanceof RFIDItem) {
                         if (stack.getItem() instanceof CustomLuaRFIDDeviceProvider provider) devices.put(idx++,provider.rfidDevice(be,canWrite,player,stack));
-                        else devices.put(idx++, LuaRFIDDevice.of(be,canWrite,player,stack));
+                        else devices.put(idx++, LuaRFIDDevice.of(be,canWrite,player,stack, ((RFIDItem) stack.getItem()).component_type));
                     }
+                }
+            }
+
+            List<? extends ItemEntity> rfidItemEntitiesInRange = world.getEntitiesByType(TypeFilter.equals(ItemEntity.class),(entity)->entity.getStack().getItem() instanceof RFIDItem);
+            for (ItemEntity item : rfidItemEntitiesInRange) {
+                ItemStack stack = item.getStack();
+                if (stack.getItem() instanceof RFIDItem) {
+                    if (stack.getItem() instanceof CustomLuaRFIDDeviceProvider provider)
+                        devices.put(idx++, provider.rfidDevice(be, canWrite, item, stack));
+                    else devices.put(idx++, LuaRFIDDevice.of(be, canWrite, item, stack, ((RFIDItem) stack.getItem()).component_type));
                 }
             }
         }

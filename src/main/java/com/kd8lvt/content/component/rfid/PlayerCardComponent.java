@@ -3,7 +3,6 @@ package com.kd8lvt.content.component.rfid;
 import com.kd8lvt.api.BindableItem;
 import com.kd8lvt.api.codec.RFIDComponentCodec;
 import com.kd8lvt.api.rfid.component.RFIDComponent;
-import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -34,13 +33,6 @@ public class PlayerCardComponent extends RFIDComponent implements BindableItem {
     @Override
     public int maxBytes() {
         return 1024;
-    }
-
-    @Override
-    public void write(String key, NbtElement value) throws LuaException {
-        int totalSize = comp.getSizeInBytes()+value.getSizeInBytes();
-        if (totalSize > maxBytes()) throw new LuaException("RFID storage full! ("+totalSize+"/"+maxBytes()+" bytes)");
-        else super.write(key, value);
     }
 
     @Override
