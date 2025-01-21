@@ -1,7 +1,7 @@
 package com.kd8lvt.registry;
 
+import com.kd8lvt.content.component.GenericModComponent;
 import com.kd8lvt.content.item.PlayerRFIDCard.PlayerCardComponent;
-import com.kd8lvt.util.GenericModComponent;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;

@@ -11,7 +11,7 @@ import static com.kd8lvt.util.RegistryUtil.id;
 public final class ModItems {
     public static Item PLAYER_CARD;
 
-    public static void init() {
+    static void init() {
         PLAYER_CARD = register(new PlayerRFIDCard(id("player_rfid_card")));
     }
 

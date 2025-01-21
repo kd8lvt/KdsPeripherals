@@ -1,9 +1,8 @@
 package com.kd8lvt.api.rfid.component;
 
 import com.kd8lvt.api.rfid.RFIDDevice;
-import com.kd8lvt.content.item.PlayerRFIDCard;
-import com.kd8lvt.util.GenericModComponent;
-import net.minecraft.component.ComponentType;
+import com.kd8lvt.content.component.GenericModComponent;
+import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 
@@ -16,12 +15,14 @@ public abstract class RFIDComponent extends GenericModComponent implements RFIDD
         this.comp=encoded;
     }
 
+    public abstract int maxBytes();
+
     @Override
     public NbtElement read(String key) {
         return comp.get(key);
     }
     @Override
-    public void write(String key, NbtElement value) {
+    public void write(String key, NbtElement value) throws LuaException {
         comp.put(key,value);
     }
 }
