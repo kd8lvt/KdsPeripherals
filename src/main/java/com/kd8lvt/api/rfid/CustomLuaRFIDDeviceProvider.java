@@ -1,9 +1,9 @@
 package com.kd8lvt.api.rfid;
 
-import com.kd8lvt.content.block.ranged_rfid_scanner.RangedRFIDScannerBlockEntity;
+import com.kd8lvt.content.block.GenericModBlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
 
 public interface CustomLuaRFIDDeviceProvider {
-    LuaRFIDDevice rfidDevice(RangedRFIDScannerBlockEntity be, boolean canWrite, ServerPlayerEntity player, ItemStack device);
+    <T extends LuaRFIDDevice> T rfidDevice(GenericModBlockEntity be, boolean canWrite, Entity player, ItemStack device);
 }

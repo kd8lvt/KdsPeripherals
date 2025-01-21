@@ -1,5 +1,6 @@
 package com.kd8lvt.datagen.lang;
 
+import com.kd8lvt.registry.ModBlocks;
 import com.kd8lvt.registry.ModItems;
 import com.kd8lvt.registry.ModTooltips;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -18,17 +19,24 @@ public class English extends FabricLanguageProvider {
     public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         builder = translationBuilder;
         items();
+        blocks();
         tooltips();
     }
 
     private static void items() {
         builder.add(ModItems.PLAYER_CARD,"Player RFID Card");
+        builder.add(ModItems.RFID_CARD,"RFID Card");
+    }
+
+    private static void blocks() {
+        builder.add(ModBlocks.RANGED_RFID_SCANNER, "Ranged RFID Scanner");
+        builder.add(ModBlocks.RFID_SCANNER, "RFID Scanner");
     }
 
     private static void tooltips() {
         builder.add(ModTooltips.BOUND,"Bound to %s");
         builder.add(ModTooltips.UNBOUND,"Not bound");
-        builder.add(ModTooltips.STORED_DATA,"Storing %s bytes of data");
+        builder.add(ModTooltips.STORED_DATA,"Storing %sB of data");
         builder.add(ModTooltips.NO_STORED_DATA,"No data stored");
     }
 }

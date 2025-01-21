@@ -1,13 +1,13 @@
 package com.kd8lvt.api.rfid;
 
 import com.kd8lvt.api.rfid.component.RFIDComponent;
-import com.kd8lvt.content.block.ranged_rfid_scanner.RangedRFIDScannerBlockEntity;
+import com.kd8lvt.content.block.GenericModBlockEntity;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
-import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Objects;
 
@@ -22,8 +22,8 @@ public class LuaRFIDDevice {
         this.writeable = writeable;
     }
 
-    public static LuaRFIDDevice of(RangedRFIDScannerBlockEntity be, boolean canWrite, ServerPlayerEntity player, ItemStack device) {
-        double distance = Math.sqrt(be.getPos().getSquaredDistance(player.getPos())); //Why can I only get squared distances lmao
+    public static LuaRFIDDevice of(GenericModBlockEntity be, boolean canWrite, Entity entity, ItemStack device) {
+        double distance = Math.sqrt(be.getPos().getSquaredDistance(entity.getPos())); //Why can I only get squared distances lmao
         RFIDDevice dev = null;
         if (device.getItem() instanceof RFIDItem<? extends RFIDComponent> rfidItem) {
             dev = device.getOrDefault(rfidItem.component_type, rfidItem.default_component);
