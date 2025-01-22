@@ -71,19 +71,19 @@ public class PlayerRFIDCard extends RFIDItem<PlayerCardComponent> implements Cus
         }
 
         @LuaFunction
-        public String getBoundUuid() {
+        public final String getBoundUuid() {
             UUID bound = device.getBoundUuid();
             if (bound == null) return null;
             return bound.toString();
         }
 
         @LuaFunction
-        public String getBoundName() {
+        public final String getBoundName() {
             return device.getBoundName();
         }
 
         @LuaFunction
-        public boolean isBound() {
+        public final boolean isBound() {
             return device.isBound();
         }
     }

@@ -5,6 +5,9 @@ import com.kd8lvt.content.component.GenericModComponent;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtHelper;
+
+import java.util.UUID;
 
 public abstract class RFIDComponent extends GenericModComponent implements RFIDDevice {
     public NbtCompound comp;
@@ -27,5 +30,25 @@ public abstract class RFIDComponent extends GenericModComponent implements RFIDD
         copy.put(key,value);
         comp = comp.copyFrom(copy);
         return this;
+    }
+
+    public void ensureHasUUID() {
+        NbtCompound comp = this.comp;
+        if (comp.get("uuid") == null) {
+            NbtCompound copy = comp.copy();
+            copy.put("uuid",NbtHelper.fromUuid(UUID.randomUUID()));
+            comp.copyFrom(copy);
+        }
+        this.comp = comp;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RFIDComponent other) {
+            this.ensureHasUUID();
+            other.ensureHasUUID();
+            return NbtHelper.toUuid(this.comp.get("uuid")).equals(NbtHelper.toUuid(other.comp.get("uuid")));
+        }
+        return false;
     }
 }

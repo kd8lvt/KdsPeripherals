@@ -1,14 +1,13 @@
 package com.kd8lvt.content.block.ranged_rfid_scanner;
 
-import com.kd8lvt.api.peripheral.PeripheralBlockEntity;
+import com.kd8lvt.content.block.rfid_scanner.RFIDScannerBlockEntity;
 import com.kd8lvt.registry.ModBlockEntities;
 import com.kd8lvt.util.RegistryUtil;
-import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-public class RangedRFIDScannerBlockEntity extends PeripheralBlockEntity {
+public class RangedRFIDScannerBlockEntity extends RFIDScannerBlockEntity {
     private final RangedRFIDScannerPeripheral peripheral = new RangedRFIDScannerPeripheral(this);
 
     public RangedRFIDScannerBlockEntity(BlockPos pos, BlockState state) {
@@ -20,7 +19,7 @@ public class RangedRFIDScannerBlockEntity extends PeripheralBlockEntity {
         return RegistryUtil.id("ranged_rfid_scanner");
     }
 
-    public IPeripheral peripheral() {
+    public RangedRFIDScannerPeripheral peripheral() {
         return this.peripheral;
     }
 }

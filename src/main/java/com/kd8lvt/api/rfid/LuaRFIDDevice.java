@@ -10,8 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
 
-import java.util.Objects;
-
 public class LuaRFIDDevice<T extends RFIDComponent> {
     public final double distance;
     public final ItemStack stack;
@@ -56,7 +54,7 @@ public class LuaRFIDDevice<T extends RFIDComponent> {
     }
 
     //This method is bad.
-    //I know its bad.
+    //I know it's bad.
     //It works, though... somehow.
     @LuaFunction
     public final void write(String key, String value) throws LuaException {
@@ -67,13 +65,8 @@ public class LuaRFIDDevice<T extends RFIDComponent> {
         stack.set(componentType,comp);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (LuaRFIDDevice) obj;
-        return Double.doubleToLongBits(this.distance) == Double.doubleToLongBits(that.distance) &&
-                Objects.equals(this.device, that.device) &&
-                this.writeable == that.writeable;
+    @LuaFunction
+    public final String uuid() {
+        return stack.get(componentType).comp.getUuid("uuid").toString();
     }
 }

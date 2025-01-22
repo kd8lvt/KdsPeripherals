@@ -13,6 +13,10 @@ public abstract class GenericModPeripheral<BE extends GenericModBlockEntity> imp
     private final BE be;
     public final AttachedComputerSet computers = new AttachedComputerSet();
 
+    public void fireEvent(String event, Object ...args) {
+        computers.queueEvent(event,args);
+    }
+
     public GenericModPeripheral(Identifier id,BE be) {
         this.be = be;
         this.id = id;
