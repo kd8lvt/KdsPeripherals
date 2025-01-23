@@ -31,14 +31,10 @@ public class PlayerCardComponent extends RFIDComponent implements BindableItem {
     public PlayerCardComponent() {super();}
 
     @Override
-    public int maxBytes() {
-        return 1024;
-    }
+    public int maxBytes() {return 1024;}
 
     @Override
-    public String deviceType() {
-        return "player_rfid_card";
-    }
+    public String deviceType() {return "player_rfid_card";}
 
     @Override
     public PlayerCardComponent bind(PlayerEntity entity) {
@@ -65,11 +61,7 @@ public class PlayerCardComponent extends RFIDComponent implements BindableItem {
     }
 
     @Override
-    public RFIDComponentCodec<PlayerCardComponent> codec() {
-        return CODEC;
-    }
+    public RFIDComponentCodec<PlayerCardComponent> codec() {return CODEC;}
     @Override
-    public ComponentType<PlayerCardComponent> type() {
-        return TYPE;
-    }
+    public ComponentType<PlayerCardComponent> type() {return TYPE;}
 }

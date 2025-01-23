@@ -31,6 +31,8 @@ public class English extends FabricLanguageProvider {
     private static void blocks() {
         builder.add(ModBlocks.RANGED_RFID_SCANNER, "Ranged RFID Scanner");
         builder.add(ModBlocks.RFID_SCANNER, "RFID Scanner");
+        builder.add(ModBlocks.BIOMETRIC_IDENTIFIER, "Biometric Identifier");
+        builder.add(ModBlocks.FACEID_SCANNER, "Face-ID Scanner");
     }
 
     private static void tooltips() {
