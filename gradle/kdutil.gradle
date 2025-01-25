@@ -1,0 +1,5 @@
+ext.modrinthRuntimeOnly = { slug, version ->
+    dependencies {
+        modRuntimeOnly "maven.modrinth:${slug}:${version}"
+    }
+}

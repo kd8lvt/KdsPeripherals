@@ -28,10 +28,4 @@ public class RFIDScannerBlock extends GenericModBlock implements BlockEntityProv
         be = new RFIDScannerBlockEntity(pos,state);
         return be;
     }
-
-    @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (be != null) return be::tick;
-        return null;
-    }
 }
