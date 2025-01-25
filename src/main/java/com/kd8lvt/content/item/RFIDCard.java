@@ -4,7 +4,7 @@ import com.kd8lvt.api.codec.RFIDComponentCodec;
 import com.kd8lvt.api.rfid.RFIDItem;
 import com.kd8lvt.api.rfid.component.RFIDComponent;
 import com.kd8lvt.registry.ModComponents;
-import com.kd8lvt.registry.ModTooltips;
+import com.kd8lvt.registry.ModTranslations;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.component.ComponentType;
 import net.minecraft.item.ItemStack;
@@ -24,8 +24,8 @@ public class RFIDCard extends RFIDItem<RFIDCard.RFIDCardComponent> {
     @Override
     public void doTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         int size = getComp(stack).getBytesStored();
-        if (size > 0) tooltip.add(Text.translatable(ModTooltips.STORED_DATA,size));
-        else tooltip.add(Text.translatable(ModTooltips.NO_STORED_DATA));
+        if (size > 0) tooltip.add(Text.translatable(ModTranslations.STORED_DATA,size));
+        else tooltip.add(Text.translatable(ModTranslations.NO_STORED_DATA));
     }
 
     public static RFIDCardComponent getComp(ItemStack stack) {

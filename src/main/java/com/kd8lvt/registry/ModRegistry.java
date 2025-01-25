@@ -14,6 +14,7 @@ public final class ModRegistry {
         ModItems.init();
 
         //Init stage 4 - stuff that requires info from a bunch of other places
-        ModTooltips.init();
+        ModTranslations.init();
+        ModCreativeTabs.init();
     }
 }

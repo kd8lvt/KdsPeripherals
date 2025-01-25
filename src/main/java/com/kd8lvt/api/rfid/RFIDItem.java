@@ -2,7 +2,7 @@ package com.kd8lvt.api.rfid;
 
 import com.kd8lvt.api.rfid.component.RFIDComponent;
 import com.kd8lvt.content.item.GenericModItem;
-import com.kd8lvt.registry.ModTooltips;
+import com.kd8lvt.registry.ModTranslations;
 import net.minecraft.component.Component;
 import net.minecraft.component.ComponentType;
 import net.minecraft.item.ItemStack;
@@ -36,7 +36,7 @@ public abstract class RFIDItem<D extends RFIDComponent> extends GenericModItem {
             for (Component<?> comp : stack.getComponents()) {
                 if (comp.value() instanceof RFIDComponent rfid) size += rfid.comp.getSizeInBytes();
             }
-            tooltip.add(Text.translatable(ModTooltips.STORED_DATA,size));
+            tooltip.add(Text.translatable(ModTranslations.STORED_DATA,size));
         }
     }
 }

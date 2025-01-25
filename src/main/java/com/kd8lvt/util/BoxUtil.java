@@ -1,7 +1,7 @@
 package com.kd8lvt.util;
 
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 
 public interface BoxUtil {

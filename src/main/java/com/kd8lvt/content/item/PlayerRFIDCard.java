@@ -6,7 +6,7 @@ import com.kd8lvt.api.rfid.RFIDItem;
 import com.kd8lvt.content.block.GenericModBlockEntity;
 import com.kd8lvt.content.component.rfid.PlayerCardComponent;
 import com.kd8lvt.registry.ModComponents;
-import com.kd8lvt.registry.ModTooltips;
+import com.kd8lvt.registry.ModTranslations;
 import dan200.computercraft.api.lua.LuaFunction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,8 +37,8 @@ public class PlayerRFIDCard extends RFIDItem<PlayerCardComponent> implements Cus
 
     @Override
     public void doTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        if (isBound(stack)) tooltip.add(Text.translatable(ModTooltips.BOUND,boundTo(stack)));
-        else tooltip.add(Text.translatable(ModTooltips.UNBOUND));
+        if (isBound(stack)) tooltip.add(Text.translatable(ModTranslations.BOUND,boundTo(stack)));
+        else tooltip.add(Text.translatable(ModTranslations.UNBOUND));
     }
 
     public static boolean isBound(ItemStack stack) {
