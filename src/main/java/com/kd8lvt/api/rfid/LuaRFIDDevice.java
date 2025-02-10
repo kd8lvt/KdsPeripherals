@@ -1,7 +1,7 @@
 package com.kd8lvt.api.rfid;
 
+import com.kd8lvt.api.peripheral.PeripheralBlockEntity;
 import com.kd8lvt.api.rfid.component.RFIDComponent;
-import com.kd8lvt.content.block.GenericModBlockEntity;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import net.minecraft.component.ComponentType;
@@ -25,7 +25,7 @@ public class LuaRFIDDevice<T extends RFIDComponent> {
         this.componentType = componentType;
     }
 
-    public static <T extends RFIDComponent> LuaRFIDDevice<T> of(GenericModBlockEntity be, boolean canWrite, Entity entity, ItemStack device, ComponentType<T> component) {
+    public static <T extends RFIDComponent> LuaRFIDDevice<T> of(PeripheralBlockEntity be, boolean canWrite, Entity entity, ItemStack device, ComponentType<T> component) {
         double distance = Math.sqrt(be.getPos().getSquaredDistance(entity.getPos())); //Why can I only get squared distances lmao
         T dev = device.get(component);
         return new LuaRFIDDevice<>(distance, component, device, dev, canWrite);
@@ -56,6 +56,7 @@ public class LuaRFIDDevice<T extends RFIDComponent> {
     //This method is bad.
     //I know it's bad.
     //It works, though... somehow.
+    @SuppressWarnings("unchecked")
     @LuaFunction
     public final void write(String key, String value) throws LuaException {
         if (!writeable) throw new LuaException("This device isn't writeable!");

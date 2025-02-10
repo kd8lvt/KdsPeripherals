@@ -1,20 +1,21 @@
 package com.kd8lvt.content.block.faceid_scanner;
 
-import com.kd8lvt.content.block.GenericModBlock;
+import com.kd8lvt.api.content.block.KdBlockWithEntity;
+import com.kd8lvt.registry.ModBlockEntities;
 import com.kd8lvt.util.RegistryUtil;
-import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class FaceIDScannerBlock extends GenericModBlock implements BlockEntityProvider {
+public class FaceIDScannerBlock extends KdBlockWithEntity<FaceIDScannerBlockEntity> {
     public FaceIDScannerBlock(Identifier id) {
-        super(id);
+        super(Settings.create().strength(Blocks.STONE.getBlastResistance(),Blocks.STONE.getHardness()).solid().sounds(BlockSoundGroup.STONE),id);
     }
 
     public FaceIDScannerBlock() {
@@ -22,12 +23,12 @@ public class FaceIDScannerBlock extends GenericModBlock implements BlockEntityPr
     }
 
     @Override
-    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new FaceIDScannerBlockEntity(pos,state);
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return FaceIDScannerBlockEntity::tick;
     }
 
     @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return FaceIDScannerBlockEntity::tick;
+    public BlockEntityType<FaceIDScannerBlockEntity> getBlockEntityType() {
+        return ModBlockEntities.FACEID_SCANNER;
     }
 }

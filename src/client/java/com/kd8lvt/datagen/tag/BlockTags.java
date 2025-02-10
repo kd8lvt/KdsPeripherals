@@ -1,6 +1,5 @@
 package com.kd8lvt.datagen.tag;
 
-import com.kd8lvt.content.block.GenericModBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Block;
@@ -8,6 +7,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
+
+import com.kd8lvt.api.content.block.KdBlock;
 
 import static com.kd8lvt.registry.ModBlocks.*;
 
@@ -26,9 +27,9 @@ public class BlockTags extends FabricTagProvider<Block> {
         FabricTagBuilder axeBuilder = this.getOrCreateTagBuilder(net.minecraft.registry.tag.BlockTags.AXE_MINEABLE);
         FabricTagBuilder hoeBuilder = this.getOrCreateTagBuilder(net.minecraft.registry.tag.BlockTags.HOE_MINEABLE);
 
-        for (GenericModBlock block : PICK) pickBuilder.add(block);
-        for (GenericModBlock block : SHOVEL) shovelBuilder.add(block);
-        for (GenericModBlock block : AXE) axeBuilder.add(block);
-        for (GenericModBlock block : HOE) hoeBuilder.add(block);
+        for (KdBlock block : PICK) pickBuilder.add(block);
+        for (KdBlock block : SHOVEL) shovelBuilder.add(block);
+        for (KdBlock block : AXE) axeBuilder.add(block);
+        for (KdBlock block : HOE) hoeBuilder.add(block);
     }
 }

@@ -1,7 +1,7 @@
 package com.kd8lvt.api.rfid;
 
+import com.kd8lvt.api.content.item.KdItem;
 import com.kd8lvt.api.rfid.component.RFIDComponent;
-import com.kd8lvt.content.item.GenericModItem;
 import com.kd8lvt.registry.ModTranslations;
 import net.minecraft.component.Component;
 import net.minecraft.component.ComponentType;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public abstract class RFIDItem<D extends RFIDComponent> extends GenericModItem {
+public abstract class RFIDItem<D extends RFIDComponent> extends KdItem {
     public final ComponentType<D> component_type;
     public final D default_component;
     public RFIDItem(ComponentType<D> type, D defaultComponent,Identifier id) {

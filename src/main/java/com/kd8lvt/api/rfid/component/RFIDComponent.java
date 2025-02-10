@@ -1,5 +1,6 @@
 package com.kd8lvt.api.rfid.component;
 
+import com.kd8lvt.api.rfid.CustomLuaRFIDDeviceProvider;
 import com.kd8lvt.api.rfid.RFIDDevice;
 import com.kd8lvt.content.component.GenericModComponent;
 import dan200.computercraft.api.lua.LuaException;
@@ -9,7 +10,7 @@ import net.minecraft.nbt.NbtHelper;
 
 import java.util.UUID;
 
-public abstract class RFIDComponent extends GenericModComponent implements RFIDDevice {
+public abstract class RFIDComponent extends GenericModComponent implements RFIDDevice, CustomLuaRFIDDeviceProvider {
     public NbtCompound comp;
     public RFIDComponent() {
         this(new NbtCompound());

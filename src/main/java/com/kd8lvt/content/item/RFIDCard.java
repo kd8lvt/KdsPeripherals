@@ -1,12 +1,15 @@
 package com.kd8lvt.content.item;
 
 import com.kd8lvt.api.codec.RFIDComponentCodec;
+import com.kd8lvt.api.peripheral.PeripheralBlockEntity;
+import com.kd8lvt.api.rfid.LuaRFIDDevice;
 import com.kd8lvt.api.rfid.RFIDItem;
 import com.kd8lvt.api.rfid.component.RFIDComponent;
 import com.kd8lvt.registry.ModComponents;
 import com.kd8lvt.registry.ModTranslations;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.component.ComponentType;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
@@ -38,7 +41,7 @@ public class RFIDCard extends RFIDItem<RFIDCard.RFIDCardComponent> {
         public RFIDCardComponent(NbtCompound encoded) {this.comp=encoded;}
         public RFIDCardComponent() {super();}
         public int getBytesStored() {
-            //there is a little overhead of (at the time of writing) 48 bytes that has to be accounted for.
+            //There is a little default overhead data that, to avoid confusing people, needs to be subtracted from the total.
             return this.comp.getSizeInBytes()-DEFAULT.comp.getSizeInBytes();
         }
 
@@ -54,6 +57,8 @@ public class RFIDCard extends RFIDItem<RFIDCard.RFIDCardComponent> {
 
         @Override
         public int maxBytes() {return 1024;}
+
+
         @Override
         public String deviceType() {return "rfid_card";}
         @Override
@@ -67,5 +72,11 @@ public class RFIDCard extends RFIDItem<RFIDCard.RFIDCardComponent> {
         }
         @Override
         public ComponentType<RFIDCard.RFIDCardComponent> type() {return new ComponentType.Builder<RFIDCardComponent>().codec(codec()).build();}
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public LuaRFIDDevice<RFIDCardComponent> rfidDevice(PeripheralBlockEntity be, boolean canWrite, Entity entity, ItemStack stack) {
+            return LuaRFIDDevice.of(be,canWrite,entity,stack,type());
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.kd8lvt.datagen.loot;
 
-import com.kd8lvt.content.block.GenericModBlock;
+import com.kd8lvt.api.content.block.KdBlock;
 import com.kd8lvt.registry.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
@@ -15,7 +15,7 @@ public class BlockLoot extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        for (GenericModBlock block : ModBlocks.BLOCKS_THAT_DROP_THEMSELVES) {
+        for (KdBlock block : ModBlocks.BLOCKS_THAT_DROP_THEMSELVES) {
             addDrop(block);
         }
     }
