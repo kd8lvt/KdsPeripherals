@@ -1,6 +1,6 @@
 package com.kd8lvt.registry;
 
-import com.kd8lvt.util.GenericModThing;
+import com.kd8lvt.api.content.KdThing;
 import net.minecraft.util.Identifier;
 
 import static com.kd8lvt.util.RegistryUtil.id;
@@ -32,19 +32,19 @@ public class ModTranslations {
     }
 
     private static String createTab(Identifier id) {
-        return id.toTranslationKey("itemgroup");
+        return id.toTranslationKey("itemGroup");
     }
 
     private static String createTooltip(Identifier id) {
         return id.toTranslationKey("tooltip");
     }
-    private static String createTooltip(GenericModThing thing) {
+    private static String createTooltip(KdThing thing) {
         return createTooltip(thing.id());
     }
     private static String createTooltip(Identifier id, String suffix) {
         return id.toTranslationKey("tooltip",suffix);
     }
-    private static String createTooltip(GenericModThing thing, String suffix) {
+    private static String createTooltip(KdThing thing, String suffix) {
         return createTooltip(thing.id(),suffix);
     }
 }

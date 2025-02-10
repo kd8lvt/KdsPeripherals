@@ -1,31 +1,28 @@
 package com.kd8lvt.content.block.biometric_identifier;
 
-import com.kd8lvt.content.block.GenericModBlock;
+import com.kd8lvt.api.content.block.KdBlockWithEntity;
+import com.kd8lvt.registry.ModBlockEntities;
 import com.kd8lvt.util.RegistryUtil;
-import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-public class BiometricIdentifierBlock extends GenericModBlock implements BlockEntityProvider {
+public class BiometricIdentifierBlock extends KdBlockWithEntity<BiometricIdentifierBlockEntity> {
     public BiometricIdentifierBlock(Identifier id) {
-        super(id);
+        super(Settings.create().strength(Blocks.STONE.getBlastResistance(),Blocks.STONE.getHardness()).solid().sounds(BlockSoundGroup.STONE),id);
     }
 
     public BiometricIdentifierBlock() {
         this(RegistryUtil.id("biometric_identifier"));
-    }
-
-    @Override
-    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new BiometricIdentifierBlockEntity(pos,state);
     }
 
     @Override
@@ -45,5 +42,10 @@ public class BiometricIdentifierBlock extends GenericModBlock implements BlockEn
         }
         be.peripheral().fireEvent("biometric_read",entity.getUuidAsString());
         super.onSteppedOn(world, pos, state, entity);
+    }
+
+    @Override
+    public BlockEntityType<BiometricIdentifierBlockEntity> getBlockEntityType() {
+        return ModBlockEntities.BIOMETRIC_IDENTIFIER;
     }
 }

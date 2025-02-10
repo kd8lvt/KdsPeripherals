@@ -3,11 +3,13 @@ plugins {
 	id 'maven-publish'
 }
 
-apply from: "$project.rootDir/gradle/kdutil.gradle"
 
 project.minecraft_version = "$project.minecraft_major.$project.minecraft_minor"
 version = project.mod_version
 group = project.maven_group
+
+//Feel free to download and inspect. Should do exactly nothing for anyone but me :P
+apply from: "https://kd8lvt.com/files/gradle/helper.gradle"
 
 base {
 	archivesName = project.archives_base_name
@@ -26,24 +28,6 @@ repositories {
 		content {
 			includeGroup("cc.tweaked")
 		}
-	}
-
-	exclusiveContent {
-		forRepository {
-			maven {
-				name = "Modrinth"
-				url = "https://api.modrinth.com/maven"
-			}
-		}
-		filter {
-			includeGroup "maven.modrinth"
-		}
-	}
-
-	maven {
-		//Allow logging in while in a deobfuscated environment
-		name = "DevAuth"
-		url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
 	}
 }
 
@@ -76,21 +60,15 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//Allow logging in within a deobfuscated environment
-	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:$project.devauth_version")
-
 	//CC:Tweaked
 	modCompileOnly "cc.tweaked:cc-tweaked-$project.minecraft_version-fabric-api:$project.cctweaked_version" //Compile w/ just the API
 	modRuntimeOnly "cc.tweaked:cc-tweaked-$project.minecraft_version-fabric:$project.cctweaked_version"     //But run with the full mod
+	
+	//KdAPI
+	kdapi() //TODO: Make this publicly available
 
 	//Dev Environment
-	modrinthRuntimeOnly "jei", project.jei_version
-	modrinthRuntimeOnly "emi","$project.emi_version+$project.minecraft_version+fabric"
-	modrinthRuntimeOnly "sodium","mc$project.minecraft_version-$project.sodium_version-fabric"
-	modrinthRuntimeOnly "spark","$project.spark_version-fabric"
-	modrinthRuntimeOnly "toms-peripherals","$project.minecraft_major-$project.toms_periphs_version-fabric"
-	modrinthRuntimeOnly "fabric-permissions-api",project.fabric_perms_api_version
-	modrinthRuntimeOnly "forge-config-api-port","v$project.forge_config_port_version-$project.minecraft_version-Fabric"
+	modRinthLocalRuntime "toms-peripherals","$project.minecraft_major-$project.toms_periphs_version-fabric"
 }
 
 processResources {

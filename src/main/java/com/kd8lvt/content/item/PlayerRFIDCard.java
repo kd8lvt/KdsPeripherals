@@ -1,14 +1,9 @@
 package com.kd8lvt.content.item;
 
-import com.kd8lvt.api.rfid.CustomLuaRFIDDeviceProvider;
-import com.kd8lvt.api.rfid.LuaRFIDDevice;
 import com.kd8lvt.api.rfid.RFIDItem;
-import com.kd8lvt.content.block.GenericModBlockEntity;
 import com.kd8lvt.content.component.rfid.PlayerCardComponent;
 import com.kd8lvt.registry.ModComponents;
 import com.kd8lvt.registry.ModTranslations;
-import dan200.computercraft.api.lua.LuaFunction;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
@@ -19,9 +14,8 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.UUID;
 
-public class PlayerRFIDCard extends RFIDItem<PlayerCardComponent> implements CustomLuaRFIDDeviceProvider {
+public class PlayerRFIDCard extends RFIDItem<PlayerCardComponent> {
     public PlayerRFIDCard(Identifier id) {
         super(ModComponents.PLAYER_CARD, new PlayerCardComponent(),id);
     }
@@ -52,39 +46,5 @@ public class PlayerRFIDCard extends RFIDItem<PlayerCardComponent> implements Cus
         comp = comp.bind(entity);
         stack.set(ModComponents.PLAYER_CARD, comp);
         return stack;
-    }
-
-    @Override
-    public LuaPlayerRFIDCard rfidDevice(GenericModBlockEntity be, boolean canWrite, Entity entity, ItemStack device) {
-        return LuaPlayerRFIDCard.of(be,canWrite,entity,device);
-    }
-    public static class LuaPlayerRFIDCard extends LuaRFIDDevice<PlayerCardComponent> {
-        PlayerCardComponent device;
-        public LuaPlayerRFIDCard(double distance, ItemStack stack, PlayerCardComponent device) {
-            super(distance,device.type(),stack,device,false);
-        }
-
-        public static LuaPlayerRFIDCard of(GenericModBlockEntity be, boolean ignoredCanWrite, Entity entity, ItemStack device) {
-            double distance = Math.sqrt(be.getPos().getSquaredDistance(entity.getPos())); //Why can I only get squared distances lmao
-            PlayerCardComponent dev = device.getOrDefault(ModComponents.PLAYER_CARD,PlayerCardComponent.DEFAULT);
-            return new LuaPlayerRFIDCard(distance, device, dev);
-        }
-
-        @LuaFunction
-        public final String getBoundUuid() {
-            UUID bound = device.getBoundUuid();
-            if (bound == null) return null;
-            return bound.toString();
-        }
-
-        @LuaFunction
-        public final String getBoundName() {
-            return device.getBoundName();
-        }
-
-        @LuaFunction
-        public final boolean isBound() {
-            return device.isBound();
-        }
     }
 }

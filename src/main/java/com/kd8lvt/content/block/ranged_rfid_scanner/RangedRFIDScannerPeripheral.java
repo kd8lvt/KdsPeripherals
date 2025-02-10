@@ -1,9 +1,8 @@
 package com.kd8lvt.content.block.ranged_rfid_scanner;
 
 import com.kd8lvt.content.block.rfid_scanner.RFIDScannerPeripheral;
-import dan200.computercraft.api.peripheral.IPeripheral;
 
-public class RangedRFIDScannerPeripheral extends RFIDScannerPeripheral<RangedRFIDScannerBlockEntity> implements IPeripheral {
+public class RangedRFIDScannerPeripheral extends RFIDScannerPeripheral<RangedRFIDScannerBlockEntity> {
     @Override
     public int range() {return 8;}
 

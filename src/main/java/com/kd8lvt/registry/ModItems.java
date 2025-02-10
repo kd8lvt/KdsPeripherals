@@ -1,35 +1,43 @@
 package com.kd8lvt.registry;
 
-import com.kd8lvt.content.block.GenericModBlock;
-import com.kd8lvt.content.item.GenericModItem;
-import com.kd8lvt.content.item.PlayerRFIDCard;
-import com.kd8lvt.content.item.RFIDCard;
-import com.kd8lvt.util.GeneratedBlockItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-
 import java.util.ArrayList;
 
-import static com.kd8lvt.util.RegistryUtil.id;
+import com.kd8lvt.api.content.block.KdBlock;
+import com.kd8lvt.api.content.item.KdItem;
+import com.kd8lvt.content.item.PlayerRFIDCard;
+import com.kd8lvt.content.item.RFIDCard;
 
-public final class ModItems {
-    public final static ArrayList<GenericModItem> ITEMS = new ArrayList<>();
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.Settings;
+import net.minecraft.registry.Registries;
+
+public final class ModItems extends ModRegistry.Registry<Item> {
+    public static final ArrayList<KdItem> ITEMS = new ArrayList<>();
     public static PlayerRFIDCard PLAYER_CARD;
     public static RFIDCard RFID_CARD;
 
-    static void init() {
-        PLAYER_CARD = register(new PlayerRFIDCard(id("player_rfid_card")));
-        RFID_CARD = register(new RFIDCard(id("rfid_card")));
+    public ModItems() {
+        super(Registries.ITEM);
     }
 
-    public static <T extends GenericModItem> T register(T item) {
-        T ret = Registry.register(Registries.ITEM,item.id(),item);
-        ITEMS.add(ret);
-        return ret;
+    @Override
+    public void registerAll() {
+        PLAYER_CARD = new PlayerRFIDCard(id("player_rfid_card"));
+        RFID_CARD = new RFIDCard(id("rfid_card"));
+        register(PLAYER_CARD);
+        register(RFID_CARD);
     }
 
-    public static <T extends GenericModBlock> void register(T block) {
-        Registry.register(Registries.ITEM,block.id(),new GeneratedBlockItem(block));
+    public <T extends KdItem> Item register(T thing) {
+        ITEMS.add(thing);
+        return register(thing.id().getPath(),thing).value();
+    }
+
+    public BlockItem register(KdBlock block) {
+        BlockItem item = new BlockItem(block,new Settings());
+        register(block.id().getPath(),item);
+        return item;
     }
 }
 

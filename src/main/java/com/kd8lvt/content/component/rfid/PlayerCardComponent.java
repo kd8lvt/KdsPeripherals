@@ -2,9 +2,14 @@ package com.kd8lvt.content.component.rfid;
 
 import com.kd8lvt.api.BindableItem;
 import com.kd8lvt.api.codec.RFIDComponentCodec;
+import com.kd8lvt.api.peripheral.PeripheralBlockEntity;
+import com.kd8lvt.api.rfid.LuaRFIDDevice;
 import com.kd8lvt.api.rfid.component.RFIDComponent;
+import dan200.computercraft.api.lua.LuaFunction;
 import net.minecraft.component.ComponentType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
@@ -64,4 +69,35 @@ public class PlayerCardComponent extends RFIDComponent implements BindableItem {
     public RFIDComponentCodec<PlayerCardComponent> codec() {return CODEC;}
     @Override
     public ComponentType<PlayerCardComponent> type() {return TYPE;}
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public LuaPlayerRFIDCard rfidDevice(PeripheralBlockEntity be, boolean canWrite, Entity entity, ItemStack device) {
+        return new LuaPlayerRFIDCard(Math.sqrt(be.getPos().getSquaredDistance(entity.getPos())),device,device.get(type()));
+    }
+
+    public static class LuaPlayerRFIDCard extends LuaRFIDDevice<PlayerCardComponent> {
+        PlayerCardComponent device;
+        public LuaPlayerRFIDCard(double distance, ItemStack stack, PlayerCardComponent device) {
+            super(distance,device.type(),stack,device,false);
+            this.device=device;
+        }
+
+        @LuaFunction
+        public final String getBoundUuid() {
+            UUID bound = device.getBoundUuid();
+            if (bound == null) return null;
+            return bound.toString();
+        }
+
+        @LuaFunction
+        public final String getBoundName() {
+            return device.getBoundName();
+        }
+
+        @LuaFunction
+        public final boolean isBound() {
+            return device.isBound();
+        }
+    }
 }
