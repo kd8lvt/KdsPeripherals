@@ -11,6 +11,9 @@ group = project.maven_group
 //Feel free to download and inspect. Should do exactly nothing for anyone but me :P
 apply from: "https://kd8lvt.com/files/gradle/helper.gradle"
 
+//Feel free to download and inspect. Should do exactly nothing for anyone but me :P
+apply from: "https://kd8lvt.com/files/gradle/helper.gradle"
+
 base {
 	archivesName = project.archives_base_name
 }
@@ -68,6 +71,7 @@ dependencies {
 	kdapi() //TODO: Make this publicly available
 
 	//Dev Environment
+	modRinthLocalRuntime "toms-peripherals","$project.minecraft_major-$project.toms_periphs_version-fabric"
 	modRinthLocalRuntime "toms-peripherals","$project.minecraft_major-$project.toms_periphs_version-fabric"
 }
 
